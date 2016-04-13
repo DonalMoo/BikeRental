@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  bike: MyString
+  price: 1
+  days: 1
+  total: 1
+  bike_id: 1
+  profile_id: 
+
+two:
+  bike: MyString
+  price: 1
+  days: 1
+  total: 1
+  bike_id: 1
+  profile_id: 

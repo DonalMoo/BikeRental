@@ -42,18 +42,22 @@ class OrdersController < ApplicationController
   def create
     @user = User.find(params[:profile_id])
     @profile = Profile.find(params[:profile_id])
-    #@orders = Order.all
-    #@order = @profile.orders.build(params.require(:profile_id).permit!)
+
+
     @order = @profile.orders.build
-    params[:bike_ids].each do |bike_id|   
+    params[:bike_ids].each do |bike_id|  
+
       #@bike.days = rent_items.days
       @order.rent_items.build(bike_id: bike_id)
     end
     @order.save!
+
     #retreive the object MyLogger class
     logger = MyLogger.instance
     logger.logInformation("A new order has been created for profile: " + @order.profile.user_id.to_s + " Order number: " + @order.id.to_s) 
+    
     if @order.save
+     #use the UserMailer to send a mail to the currently signed in user to tell them they have completed the order successfuly
       UserMailer.order_email(@user).deliver_now
       redirect_to profile_order_url(@profile, @order)
     else 

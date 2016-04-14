@@ -4,6 +4,6 @@ class UserMailer < ApplicationMailer
 	def order_email(user)
 		@user = user
 		@url = 'donalmooney87@gmail.com'
-		mail(to: @user.email, subject: 'Thank you for placing an order', body:'Order details:')
+		mail(to: @user.email, subject: 'Thank you for placing an order')
 	end
 end

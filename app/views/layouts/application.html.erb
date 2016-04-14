@@ -14,7 +14,8 @@
 				<ul class="nav navbar-nav navbar-right">
 					<li><%= link_to "Home", home_index_path %></li>
 					<li><%= link_to "Bikes", bikes_path %></li>
-					<% if user_signed_in? %>
+					<%# check if user is signed in and has a profile before showing orders%>
+					<% if user_signed_in? && current_user.profile.present? %>
 					<li><%= link_to "My Orders", profile_orders_path(Profile.find_by_user_id(current_user.id)) %></li>
 					<% end %>
 					<% if user_signed_in? %>
@@ -28,21 +29,13 @@
 		</div>
 	</header>
 
-<p class="notice"><%= notice %></p>
-<p class="alert"><% alert %></p>
 
 <div class="container">
 <%= yield %>
 
-<% if user_signed_in? %>
-<div> Signed in as: <%= current_user.email %>
-	(<%= link_to 'Logout' , destroy_user_session_path, :method => :delete%>)
-</div>
 
-<% else %>
-	<%= link_to 'Register' , new_user_registration_path, class: "btn btn-large btn-default" %> or
-	<%= link_to 'Sign in' , new_user_session_path, class: "btn btn-large btn-default" %>
-<% end %>
 </div>
+<p class="notice"><%= notice %></p>
+<p class="alert"><% alert %></p>
 </body>
 </html>

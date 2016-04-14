@@ -35,7 +35,7 @@
         <%# image tag to show image from url %>
         <td><%= image_tag(bike.image_url, :class => 'list_image') %></td>
         <%# checkbox to add bikes to order, passing bike id's %>
-        <td><%= check_box_tag "bike_ids[]" %>
+        <td><%= check_box_tag "bike_ids[]" %></td>
         <%# only allow admin to edit bikes %>
         <% if current_user.admin? %>
         <td><%= link_to 'Show', bike %></td>

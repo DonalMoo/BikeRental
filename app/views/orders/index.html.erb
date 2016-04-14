@@ -30,7 +30,9 @@
       <%# <td><%= order.profile_id %>
        <%# <td><%= link_to 'Show', profile_order(@profile) %>
        <%#<td><%= link_to 'Edit', edit_profile_order_path(@profile, @order) %>
-       <%#<td><%= link_to 'Destroy', profile_orders, method: :delete, data: { confirm: 'Are you sure?' } %>
+       <% if current_user.admin? %>
+       <td><%= link_to 'Destroy', profile_orders_path(@order.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+       <% end %>
       </tr>
     <% end %>
   </tbody>

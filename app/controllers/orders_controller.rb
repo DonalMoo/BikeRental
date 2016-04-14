@@ -1,4 +1,5 @@
 require 'my_logger'
+require 'calculator'
 class OrdersController < ApplicationController
   before_action :set_order, only: [:show, :edit, :update, :destroy]
 
@@ -47,23 +48,28 @@ class OrdersController < ApplicationController
     @order = @profile.orders.build
     params[:bike_ids].each do |bike_id|  
 
-      #@bike.days = rent_items.days
+      #@bike.days = @order.rent_items.days
       @order.rent_items.build(bike_id: bike_id)
     end
     @order.save!
 
     #retreive the object MyLogger class
     logger = MyLogger.instance
-    logger.logInformation("A new order has been created for profile: " + @order.profile.user_id.to_s + " Order number: " + @order.id.to_s) 
-    
+    logger.logInformation("A new order has been created for profile: " + @order.profile.user_id.to_s + " Order number: " + @order.id.to_s)  
     if @order.save
      #use the UserMailer to send a mail to the currently signed in user to tell them they have completed the order successfuly
-      UserMailer.order_email(@user).deliver_now
+     UserMailer.order_email(@user).deliver_now
       redirect_to profile_order_url(@profile, @order)
     else 
       render :action => "new"
     end
   end
+
+   def sum
+      @num1 = params[:bike.days]
+      @num2 = params[:bike.price]
+      @result = Calculator.total(@num1.to_i, @num2.to_i)
+    end
 
    # respond_to do |format|
     #  if @order.save
@@ -105,6 +111,8 @@ class OrdersController < ApplicationController
     def set_order
       @order = Order.find(params[:id])
     end
+
+   
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params

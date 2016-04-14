@@ -1,10 +1,22 @@
 class BikesController < ApplicationController
+  before_filter :authenticate_user!
+  before_filter :ensure_admin, :only => [:edit, :destroy]
   before_action :set_bike, only: [:show, :edit, :update, :destroy]
 
   # GET /bikes
   # GET /bikes.json
   def index
     @bikes = Bike.all
+
+    if params[:search]
+      # select all the bikes that match the search
+      @bikes = Bike.search(params[:search])
+      #order the selected rows in assending order by created at
+      @bikes = @bikes.order("created_at ASC")
+    else
+      #order all reows in decending order by created_at field
+      @bikes = @bikes.order("created_at DESC")
+    end
   end
 
   # GET /bikes/1

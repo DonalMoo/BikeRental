@@ -9,9 +9,11 @@
       <th>Price</th>
       <th>Days</th>
       <th>Total</th>
-      <th>Bike</th>
+      <th>Order Number</th>
       <th>Profile</th>
-      <th colspan="3"></th>
+    <%#  <th>Bike</th>
+      <th>Profile</th> %>
+      <th colspan="4"></th>
     </tr>
   </thead>
 
@@ -22,11 +24,13 @@
         <td><%= order.price %></td>
         <td><%= order.days %></td>
         <td><%= order.total %></td>
-        <td><%= order.bike_id %></td>
-        <td><%= order.profile %></td>
-        <td><%= link_to 'Show', profile_order %></td>
-        <td><%= link_to 'Edit', edit_profile_order_path(order) %></td>
-        <td><%= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= order.id %></td>
+        <td><%= order.profile_id %></td>
+      <%#  <td><%= order.bike_id %>
+      <%# <td><%= order.profile_id %>
+       <%# <td><%= link_to 'Show', profile_order(@profile) %>
+       <%#<td><%= link_to 'Edit', edit_profile_order_path(@profile, @order) %>
+       <%#<td><%= link_to 'Destroy', profile_orders, method: :delete, data: { confirm: 'Are you sure?' } %>
       </tr>
     <% end %>
   </tbody>
@@ -34,4 +38,5 @@
 
 <br>
 
-<%= link_to 'New Order', new_profile_order_path %>
+<%# link_to 'New Order', new_profile_order_path %>
+<%# <%= link_to 'Edit', edit_profile_order_path(@id) %>

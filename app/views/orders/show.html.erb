@@ -1,18 +1,18 @@
 <p id="notice"><%= notice %></p>
-
+<% @order.rent_items.each do |rent_item| %>
 <p>
-  <strong>Bike:</strong>
-  <%= @order.bike %>
+  <strong>Bike Description:</strong>
+  <%= rent_item.bike.description %>
 </p>
 
 <p>
   <strong>Price:</strong>
-  <%= @order.price %>
+  <%= rent_item.bike.price %>
 </p>
 
 <p>
   <strong>Days:</strong>
-  <%= @order.days %>
+  <%= rent_item.days %>
 </p>
 
 <p>
@@ -21,14 +21,13 @@
 </p>
 
 <p>
-  <strong>Bike:</strong>
-  <%= @order.bike_id %>
+  <strong>Your profile number:</strong>
+  <%= @order.profile.user_id %>
 </p>
-
 <p>
-  <strong>Profile:</strong>
-  <%= @order.profile %>
+  <strong>This Order reference:</strong>
+  <%= @order.id %>
 </p>
-
-<%= link_to 'Edit', edit_order_path(@order) %> |
-<%= link_to 'Back', orders_path %>
+<% end %>
+<%# link_to 'Edit', edit_profile_order_path(@profile, @order) %> |
+<%= link_to 'Back', profile_orders_path(@profile) %> 

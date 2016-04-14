@@ -1,14 +1,25 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Bikes</h1>
+<h1>Bikes available to rent</h1>
 
+<h2>Search for a bike</h2>
+<%= form_tag(bikes_path, :method => "get") do %>
+  <%= text_field_tag :search, params[:search], :placeholder => "Search for a bike" %>
+  <%= submit_tag "Search" %>
+<% end %>
+
+<p></p>
+
+<%# form to collect user input for the order %>
+<%= form_for [Profile.find_by_user_id(current_user.id), Order.new] do |f| %>
 <table>
   <thead>
     <tr>
       <th>Description</th>
       <th>Price</th>
-      <th>Days</th>
-      <th>Image url</th>
+      <th>Number of Days</th>
+      <th></th>
+      <th>Add to order</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -17,10 +28,15 @@
     <% @bikes.each do |bike| %>
       <tr>
         <td><%= bike.description %></td>
-        <td><%= bike.price %></td>
-        <td><%= bike.days %></td>
+        <%# number to currency helper to show euro symbol %>
+        <td><%= number_to_currency(bike.price, unit: "€") %></td>
+        <%# text input to say how many days to rent bike %>
+        <td><%= text_field_tag "days[]" %></td>
+        <%# image tag to show image from url %>
         <td><%= image_tag(bike.image_url, :class => 'list_image') %></td>
-        <td><%= button_to 'Add to Order', profile_orders_path(Profile.find_by_user_id(current_user.id), bike_id: bike) %></td>
+        <%# checkbox to add bikes to order, passing bike id's %>
+        <td><%= check_box_tag "bike_ids[]" %>
+        <%# only allow admin to edit bikes %>
         <% if current_user.admin? %>
         <td><%= link_to 'Show', bike %></td>
         <td><%= link_to 'Edit', edit_bike_path(bike) %></td>
@@ -30,8 +46,14 @@
     <% end %>
   </tbody>
 </table>
+<%# submitting form will create a POST  %>
+<%= f.submit 'Order' , class: 'btn' %>
+<% end %>
 
 <br>
+
+<%# Only allow an admin to create a new bike %>
+
 <% if current_user.admin? %>
 <%= link_to 'New Bike', new_bike_path %>
 <% end %>

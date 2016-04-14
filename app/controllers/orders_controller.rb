@@ -1,3 +1,4 @@
+require 'my_logger'
 class OrdersController < ApplicationController
   before_action :set_order, only: [:show, :edit, :update, :destroy]
 
@@ -6,6 +7,7 @@ class OrdersController < ApplicationController
   def index
     #get the profile with id 
     @profile = Profile.find(params[:profile_id])
+    @orders = Order.all
 
     #access akk the orders for that profile
     #@orders = @profile.orders
@@ -31,17 +33,31 @@ class OrdersController < ApplicationController
 
   # GET /orders/1/edit
   def edit
+    @orders = Order.all
+    @profile = Profile.find(params[:profile_id])
   end
 
   # POST /orders
   # POST /orders.json
   def create
+    @user = User.find(params[:profile_id])
     @profile = Profile.find(params[:profile_id])
-    @order = @profile.orders.build(params.require(:order).permit!)
-    @order = @profile.orders.build(params.require(:order).permit!(:bike, :price, :days, :total, :bike_id, :profile_id))
+    #@orders = Order.all
+    #@order = @profile.orders.build(params.require(:profile_id).permit!)
+    @order = @profile.orders.build
+    params[:bike_ids].each do |bike_id|   
+      #@bike.days = rent_items.days
+      @order.rent_items.build(bike_id: bike_id)
+    end
+    @order.save!
+    #retreive the object MyLogger class
+    logger = MyLogger.instance
+    logger.logInformation("A new order has been created for profile: " + @order.profile.user_id.to_s + " Order number: " + @order.id.to_s) 
     if @order.save
+      UserMailer.order_email(@user).deliver_now
       redirect_to profile_order_url(@profile, @order)
-    else render :action => "new"
+    else 
+      render :action => "new"
     end
   end
 
@@ -73,7 +89,7 @@ class OrdersController < ApplicationController
   # DELETE /orders/1
   # DELETE /orders/1.json
   def destroy
-    @order.destroy
+    @profile_order.destroy
     respond_to do |format|
       format.html { redirect_to orders_url, notice: 'Order was successfully destroyed.' }
       format.json { head :no_content }

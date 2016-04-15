@@ -1,4 +1,6 @@
 <p id="notice"><%= notice %></p>
+
+<h2>Your Order Summary</h2>
 <% @order.rent_items.each do |rent_item| %>
 <p>
   <strong>Bike Description:</strong>
@@ -14,21 +16,19 @@
   <strong>Days:</strong>
   <%= rent_item.days %>
 </p>
-
-<p>
-  <strong>Total:</strong>
-  <%= @order.total %>
-</p>
-
-<p>
-  <strong>Your profile number:</strong>
-  <%= @order.profile.user_id %>
-</p>
-<p>
-  <strong>This Order reference:</strong>
-  <%= @order.id %>
-</p>
 <% end %>
+<p>
+<p>
+  <strong>Total: <%= @order.total %></strong>
+</p>
+  <strong>Thanks for your order <%= @order.profile.firstname %> </strong>
+</p>
+<p>
+  <strong>This Order reference: <%= @order.id %></strong>
+</p>
+<p>
+  <strong>This Order created at: <%= @order.created_at %></strong>
+</p>
 
 <%# link_to 'Edit', edit_profile_order_path(@profile, @order) %> |
 <%= link_to 'Back', profile_orders_path(@profile) %> 

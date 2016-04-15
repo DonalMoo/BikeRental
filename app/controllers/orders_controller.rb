@@ -9,9 +9,6 @@ class OrdersController < ApplicationController
     #get the profile with id 
     @profile = Profile.find(params[:profile_id])
     @orders = Order.all
-
-    #access akk the orders for that profile
-    #@orders = @profile.orders
   end
 
   # GET /orders/1
@@ -26,10 +23,6 @@ class OrdersController < ApplicationController
   def new
     @order = Order.new
     @profile = Profile.find(params[:profile_id])
-    #asscioate a order object with profile
-   # @order = @profile.orders.build
-   # @order.bike_id = bike.bike_id
-
   end
 
   # GET /orders/1/edit
@@ -43,13 +36,10 @@ class OrdersController < ApplicationController
   def create
     @user = User.find(params[:profile_id])
     @profile = Profile.find(params[:profile_id])
-
-
     @order = @profile.orders.build
     params[:bike_ids].each do |bike_id|  
-
-      #@bike.days = @order.rent_items.days
-      @order.rent_items.build(bike_id: bike_id)
+    #@order.days = @order.rent_items.days
+    @order.rent_items.build(bike_id: bike_id)
     end
     @order.save!
 
@@ -65,11 +55,12 @@ class OrdersController < ApplicationController
     end
   end
 
-   def sum
+  #method to calculate total price
+  def sum
       @num1 = params[:bike.days]
       @num2 = params[:bike.price]
       @result = Calculator.total(@num1.to_i, @num2.to_i)
-    end
+  end
 
    # respond_to do |format|
     #  if @order.save

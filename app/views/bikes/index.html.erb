@@ -1,5 +1,4 @@
 <p id="notice"><%= notice %></p>
-
 <h1>Bikes available to rent</h1>
 
 <h2>Search for a bike</h2>
@@ -11,6 +10,7 @@
 <p></p>
 
 <%# form to collect user input for the order %>
+<h3> Create an order </h3>
 <%= form_for [Profile.find_by_user_id(current_user.id), Order.new] do |f| %>
 <table>
   <thead>
@@ -31,11 +31,11 @@
         <%# number to currency helper to show euro symbol %>
         <td><%= number_to_currency(bike.price, unit: "€") %></td>
         <%# text input to say how many days to rent bike %>
-        <td><%= text_field_tag "days[]" %></td>
+        <td><%= text_field_tag "days[]", bike.days %></td>
         <%# image tag to show image from url %>
         <td><%= image_tag(bike.image_url, :class => 'list_image') %></td>
         <%# checkbox to add bikes to order, passing bike id's %>
-        <td><%= check_box_tag "bike_ids[]" %></td>
+        <td><%= check_box_tag "bike_ids[]",bike.id %></td>
         <%# only allow admin to edit bikes %>
         <% if current_user.admin? %>
         <td><%= link_to 'Show', bike %></td>
@@ -47,7 +47,7 @@
   </tbody>
 </table>
 <%# submitting form will create a POST  %>
-<%= f.submit 'Order' , class: 'btn' %>
+<%= f.submit 'Submit Order' , class: 'btn' %>
 <% end %>
 
 <br>

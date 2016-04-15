@@ -31,8 +31,8 @@ Rails.application.configure do
     enable_starttls_auto:   true
 }
 
-# Send email in development mode?
-config.action_mailer.perform_deliveries = true
+  # Send email in development mode?
+  config.action_mailer.perform_deliveries = true
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true

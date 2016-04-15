@@ -31,6 +31,7 @@ class BikesController < ApplicationController
 
   # GET /bikes/1/edit
   def edit
+    @bikes = Bike.all
   end
 
   # POST /bikes
